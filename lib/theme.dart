@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 final appTheme = ThemeData(
   primarySwatch: Colors.blue,
+  accentColor: Colors.pinkAccent,
   fontFamily: 'Open Sans',
   appBarTheme: AppBarTheme(
     elevation: 0,

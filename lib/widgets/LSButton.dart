@@ -8,16 +8,16 @@ class LSButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
-      fillColor: Colors.green,
-      splashColor: Colors.greenAccent,
+      fillColor: Theme.of(context).accentColor,
+      splashColor: Theme.of(context).splashColor,
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(
-              Icons.face,
-              color: Colors.amber,
+              Icons.sd_card,
+              color: Colors.white,
             ),
             SizedBox(
               width: 10.0,
