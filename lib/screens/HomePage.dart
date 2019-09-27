@@ -13,8 +13,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool granted = false;
   final NavigationService _navigationService = locator<NavigationService>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    PermissionUtils.checkStoragePermission().then((p) {
+      if (p) {
+        _navigationService.navigateToReplaced(RoutePaths.Status);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

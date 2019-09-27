@@ -15,6 +15,7 @@ class _StatusListPageState extends State<StatusListPage> {
         title: Text(AppConstants.app_name),
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Text('data'),

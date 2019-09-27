@@ -19,32 +19,16 @@ Future main() async {
 
   await setupLocator();
 
-  String defaultPath = RoutePaths.Status;
-
-  var granted = await PermissionUtils.checkStoragePermission();
-
-  if (!granted) {
-    defaultPath = RoutePaths.Home;
-  }
-
-  runApp(
-    MyApp(
-      defaultPath: defaultPath,
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String defaultPath;
-
-  const MyApp({Key key, @required this.defaultPath}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: AppConstants.app_name,
       theme: appTheme,
-      initialRoute: defaultPath,
+      initialRoute: RoutePaths.Home,
       onGenerateRoute: Router.generateRoute,
       navigatorKey: locator<NavigationService>().navigatorKey,
     );
