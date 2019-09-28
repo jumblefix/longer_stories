@@ -93,7 +93,9 @@ class _StatusListPageState extends State<StatusListPage> {
                             onPressed: () => _navigate(index),
                           );
                         }
-                        return CircularProgressIndicator();
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                       },
                     );
                   }
