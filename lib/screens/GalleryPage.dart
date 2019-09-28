@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:longer_stories/locator.dart';
 import 'package:longer_stories/models/GalleryItem.dart';
+import 'package:longer_stories/services/StorageService.dart';
 import 'package:longer_stories/widgets/DotsIndicator.dart';
 import 'package:longer_stories/widgets/PlayVideo.dart';
 
@@ -22,15 +24,23 @@ class GalleryPage extends StatefulWidget {
 class _GalleryPageState extends State<GalleryPage> {
   PageController _controller;
   static const _kDuration = const Duration(milliseconds: 300);
+  final StorageService _storageService = locator<StorageService>();
 
   static const _kCurve = Curves.ease;
 
   final _kArrowColor = Colors.black.withOpacity(0.8);
 
+  int _currentPage = 0;
+
   @override
   void initState() {
     super.initState();
     _controller = PageController(initialPage: widget.initialPage);
+    _controller.addListener(() {
+      setState(() {
+        _currentPage = _controller.page.toInt();
+      });
+    });
   }
 
   @override
@@ -38,6 +48,18 @@ class _GalleryPageState extends State<GalleryPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        title: DotsIndicator(
+          controller: _controller,
+          itemCount: widget.galleryItems.length,
+          onPageSelected: (int page) {
+            _controller.animateToPage(
+              page,
+              duration: _kDuration,
+              curve: _kCurve,
+            );
+          },
+        ),
+        centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
       body: IconTheme(
@@ -59,24 +81,43 @@ class _GalleryPageState extends State<GalleryPage> {
                       );
               },
             ),
-            Positioned(
-              top: 0.0,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: Center(
-                  child: DotsIndicator(
-                    controller: _controller,
-                    itemCount: widget.galleryItems.length,
-                    onPageSelected: (int page) {
-                      _controller.animateToPage(
-                        page,
-                        duration: _kDuration,
-                        curve: _kCurve,
-                      );
-                    },
-                  ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              heightFactor: 15,
+              child: Builder(
+                builder: (BuildContext context) => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton.icon(
+                      splashColor: Colors.pinkAccent,
+                      icon: Icon(
+                        Icons.save,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'Save',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        var saved = await _storageService.saveFile(
+                            widget.galleryItems[_currentPage].resource);
+                        final s = SnackBar(content: Text('Saved at $saved'));
+                        Scaffold.of(context).showSnackBar(s);
+                      },
+                    ),
+                    FlatButton.icon(
+                      splashColor: Colors.pinkAccent,
+                      icon: Icon(
+                        Icons.share,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'Share',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {},
+                    ),
+                  ],
                 ),
               ),
             ),

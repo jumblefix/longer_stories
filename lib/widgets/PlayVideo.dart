@@ -46,10 +46,34 @@ class _PlayVideoState extends State<PlayVideo> {
         child: _controller.value.initialized
             ? AspectRatio(
                 aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
+                child: Stack(children: [
+                  VideoPlayer(_controller),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Opacity(
+                      child: _buildPlayPause(),
+                      opacity: 0.5,
+                    ),
+                  ),
+                ]),
               )
             : Container(),
       ),
+    );
+  }
+
+  Widget _buildPlayPause() {
+    if (!_controller.value.isPlaying) {
+      return Icon(
+        Icons.play_arrow,
+        size: 50,
+        color: Colors.white,
+      );
+    }
+    return Icon(
+      Icons.pause,
+      size: 50,
+      color: Colors.white,
     );
   }
 
