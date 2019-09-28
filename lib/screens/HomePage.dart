@@ -48,7 +48,6 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
       ),
       body: Container(
-        color: Theme.of(context).primaryColor,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

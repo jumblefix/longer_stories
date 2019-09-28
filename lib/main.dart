@@ -6,7 +6,6 @@ import 'package:longer_stories/locator.dart';
 import 'package:longer_stories/routes.dart';
 import 'package:longer_stories/services/NavigationService.dart';
 import 'package:longer_stories/theme.dart';
-import 'package:longer_stories/utils/PermissionUtils.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
