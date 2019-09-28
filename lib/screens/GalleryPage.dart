@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:longer_stories/locator.dart';
 import 'package:longer_stories/models/GalleryItem.dart';
 import 'package:longer_stories/services/StorageService.dart';
-import 'package:longer_stories/widgets/DotsIndicator.dart';
 import 'package:longer_stories/widgets/PlayVideo.dart';
+import 'package:share_extend/share_extend.dart';
 
 class GalleryPage extends StatefulWidget {
   final int initialPage;
@@ -23,10 +23,8 @@ class GalleryPage extends StatefulWidget {
 
 class _GalleryPageState extends State<GalleryPage> {
   PageController _controller;
-  static const _kDuration = const Duration(milliseconds: 300);
-  final StorageService _storageService = locator<StorageService>();
 
-  static const _kCurve = Curves.ease;
+  final StorageService _storageService = locator<StorageService>();
 
   final _kArrowColor = Colors.black.withOpacity(0.8);
 
@@ -48,19 +46,11 @@ class _GalleryPageState extends State<GalleryPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: DotsIndicator(
-          controller: _controller,
-          itemCount: widget.galleryItems.length,
-          onPageSelected: (int page) {
-            _controller.animateToPage(
-              page,
-              duration: _kDuration,
-              curve: _kCurve,
-            );
-          },
-        ),
-        centerTitle: true,
+        title: Text('Save and Share'),
         backgroundColor: Colors.transparent,
+        actions: <Widget>[
+          Text('${_currentPage + 1} / ${widget.galleryItems.length}')
+        ],
       ),
       body: IconTheme(
         data: IconThemeData(color: _kArrowColor),
@@ -90,6 +80,7 @@ class _GalleryPageState extends State<GalleryPage> {
                   children: <Widget>[
                     FlatButton.icon(
                       splashColor: Colors.pinkAccent,
+                      color: Theme.of(context).accentColor,
                       icon: Icon(
                         Icons.save,
                         color: Colors.white,
@@ -107,6 +98,7 @@ class _GalleryPageState extends State<GalleryPage> {
                     ),
                     FlatButton.icon(
                       splashColor: Colors.pinkAccent,
+                      color: Theme.of(context).accentColor,
                       icon: Icon(
                         Icons.share,
                         color: Colors.white,
@@ -115,7 +107,15 @@ class _GalleryPageState extends State<GalleryPage> {
                         'Share',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        var g = widget.galleryItems[_currentPage];
+                        var item = g.resource;
+                        var f = File(item);
+                        ShareExtend.share(
+                          f.path,
+                          g.isVideo ? 'video' : 'image',
+                        );
+                      },
                     ),
                   ],
                 ),

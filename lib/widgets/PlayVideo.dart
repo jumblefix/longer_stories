@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:screen/screen.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayVideo extends StatefulWidget {
@@ -23,12 +24,17 @@ class _PlayVideoState extends State<PlayVideo> {
     _controller = VideoPlayerController.file(File(widget.filePath))
       ..initialize().then((_) {
         setState(() {});
+        Screen.keepOn(true);
       });
+
+    _controller.addListener(() {
+      if (!_controller.value.isPlaying) Screen.keepOn(false);
+    });
 
     _chewieController = ChewieController(
       videoPlayerController: _controller,
       autoPlay: false,
-      looping: false,
+      looping: true,
     );
   }
 
