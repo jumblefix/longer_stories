@@ -34,6 +34,11 @@ class _GalleryPageState extends State<GalleryPage> {
   void initState() {
     super.initState();
     _controller = PageController(initialPage: widget.initialPage);
+
+    setState(() {
+      _currentPage = widget.initialPage;
+    });
+
     _controller.addListener(() {
       setState(() {
         _currentPage = _controller.page.toInt();
