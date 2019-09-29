@@ -37,18 +37,12 @@ class _GalleryPageState extends State<GalleryPage> {
     setState(() {
       _currentPage = widget.initialPage;
     });
-
-    _controller.addListener(() {
-      setState(() {
-        _currentPage = _controller.page.toInt();
-      });
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.removeListener(() {});
+    _controller.dispose();
   }
 
   @override
@@ -58,20 +52,25 @@ class _GalleryPageState extends State<GalleryPage> {
       body: Stack(
         children: [
           PageView.builder(
-            itemCount: widget.galleryItems.length,
-            physics: AlwaysScrollableScrollPhysics(),
-            controller: _controller,
-            itemBuilder: (BuildContext context, int index) {
-              var item = widget.galleryItems[index];
-              return item.isVideo
-                  ? PlayVideo(
-                      filePath: item.resource,
-                    )
-                  : Image.file(
-                      File(item.resource),
-                    );
-            },
-          ),
+              itemCount: widget.galleryItems.length,
+              physics: AlwaysScrollableScrollPhysics(),
+              controller: _controller,
+              itemBuilder: (BuildContext context, int index) {
+                var item = widget.galleryItems[index];
+                return item.isVideo
+                    ? PlayVideo(
+                        key: Key(item.resource),
+                        filePath: item.resource,
+                        currentPage: _currentPage)
+                    : Image.file(
+                        File(item.resource),
+                      );
+              },
+              onPageChanged: (index) {
+                setState(() {
+                  _currentPage = index;
+                });
+              }),
           Positioned(
             top: 0.0,
             left: 0.0,

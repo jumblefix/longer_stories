@@ -7,8 +7,13 @@ import 'package:video_player/video_player.dart';
 
 class PlayVideo extends StatefulWidget {
   final String filePath;
+  final int currentPage;
 
-  const PlayVideo({Key key, @required this.filePath}) : super(key: key);
+  const PlayVideo({
+    Key key,
+    @required this.filePath,
+    @required this.currentPage,
+  }) : super(key: key);
 
   @override
   _PlayVideoState createState() => _PlayVideoState();
@@ -16,7 +21,6 @@ class PlayVideo extends StatefulWidget {
 
 class _PlayVideoState extends State<PlayVideo> {
   VideoPlayerController _controller;
-  ChewieController _chewieController;
   bool playing = false;
 
   @override
@@ -24,9 +28,7 @@ class _PlayVideoState extends State<PlayVideo> {
     super.initState();
     _controller = VideoPlayerController.file(File(widget.filePath))
       ..initialize().then((_) {
-        setState(() {
-          playing = true;
-        });
+        setState(() {});
       });
   }
 
@@ -67,9 +69,14 @@ class _PlayVideoState extends State<PlayVideo> {
   }
 
   @override
+  void deactivate() {
+    _controller.setVolume(0.0);
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _controller.dispose();
-    _chewieController.dispose();
   }
 }
