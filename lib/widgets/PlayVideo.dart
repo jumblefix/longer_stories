@@ -28,12 +28,6 @@ class _PlayVideoState extends State<PlayVideo> {
           playing = true;
         });
       });
-
-    _chewieController = ChewieController(
-      videoPlayerController: _controller,
-      autoPlay: false,
-      looping: true,
-    );
   }
 
   @override
@@ -55,33 +49,20 @@ class _PlayVideoState extends State<PlayVideo> {
             ? AspectRatio(
                 aspectRatio: _controller.value.aspectRatio,
                 child: Stack(children: [
-                  VideoPlayer(_controller),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Opacity(
-                      child: _buildPlayPause(),
-                      opacity: 0.5,
+                  Chewie(
+                    controller: ChewieController(
+                      videoPlayerController: _controller,
+                      autoPlay: false,
+                      looping: true,
+                      showControls: true,
+                      allowFullScreen: false,
+                      aspectRatio: _controller.value.aspectRatio,
                     ),
                   ),
                 ]),
               )
             : Container(),
       ),
-    );
-  }
-
-  Widget _buildPlayPause() {
-    if (!_controller.value.isPlaying) {
-      return Icon(
-        Icons.play_arrow,
-        size: 50,
-        color: Colors.white,
-      );
-    }
-    return Icon(
-      Icons.pause,
-      size: 50,
-      color: Colors.white,
     );
   }
 
