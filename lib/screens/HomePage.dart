@@ -14,12 +14,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final NavigationService _navigationService = locator<NavigationService>();
+  bool granted = false;
 
   @override
   void initState() {
     super.initState();
 
     PermissionUtils.checkStoragePermission().then((p) {
+      setState(() {
+        granted = p;
+      });
       if (p) {
         _navigationService.navigateToReplaced(RoutePaths.Status);
       }
@@ -47,43 +51,49 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  AppConstants.permission_msg,
-                  softWrap: true,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              UIHelper.verticalSpaceMedium,
-              Builder(
-                builder: (context) => LSButton(
-                  onPressed: () async {
-                    bool granted = await PermissionUtils.requestPermission();
+      body: granted
+          ? Container(
+              color: Colors.white,
+            )
+          : Container(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        AppConstants.permission_msg,
+                        softWrap: true,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    UIHelper.verticalSpaceMedium,
+                    Builder(
+                      builder: (context) => LSButton(
+                        onPressed: () async {
+                          bool granted =
+                              await PermissionUtils.requestPermission();
 
-                    if (granted) {
-                      _navigationService.navigateToReplaced(RoutePaths.Status);
-                    } else {
-                      Scaffold.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                  text: 'Enable Storage',
+                          if (granted) {
+                            _navigationService
+                                .navigateToReplaced(RoutePaths.Status);
+                          } else {
+                            Scaffold.of(context).showSnackBar(snackBar);
+                          }
+                        },
+                        text: 'Enable Storage',
+                      ),
+                    ),
+                    UIHelper.verticalSpaceLarge,
+                  ],
                 ),
               ),
-              UIHelper.verticalSpaceLarge,
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

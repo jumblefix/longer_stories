@@ -17,19 +17,17 @@ class PlayVideo extends StatefulWidget {
 class _PlayVideoState extends State<PlayVideo> {
   VideoPlayerController _controller;
   ChewieController _chewieController;
+  bool playing = false;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.file(File(widget.filePath))
       ..initialize().then((_) {
-        setState(() {});
-        Screen.keepOn(true);
+        setState(() {
+          playing = true;
+        });
       });
-
-    _controller.addListener(() {
-      if (!_controller.value.isPlaying) Screen.keepOn(false);
-    });
 
     _chewieController = ChewieController(
       videoPlayerController: _controller,
@@ -44,9 +42,13 @@ class _PlayVideoState extends State<PlayVideo> {
       child: GestureDetector(
         onTap: () {
           setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
+            if (_controller.value.isPlaying) {
+              Screen.keepOn(true);
+              _controller.pause();
+            } else {
+              Screen.keepOn(false);
+              _controller.play();
+            }
           });
         },
         child: _controller.value.initialized
