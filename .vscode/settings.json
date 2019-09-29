@@ -18,6 +18,7 @@
     "ffmpeg",
     "flushbar",
     "passthrough",
+    "rflutter",
     "vsync",
     "wifi"
   ]

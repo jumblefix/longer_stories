@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:longer_stories/constants/AppConstants.dart';
 import 'package:longer_stories/constants/RoutePaths.dart';
 import 'package:longer_stories/locator.dart';
+import 'package:longer_stories/managers/DialogueManager.dart';
 import 'package:longer_stories/routes.dart';
 import 'package:longer_stories/services/NavigationService.dart';
 import 'package:longer_stories/theme.dart';
@@ -25,6 +26,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, widget) => Navigator(
+        onGenerateRoute: (settings) => MaterialPageRoute(
+          builder: (context) => DialogManager(
+            child: widget,
+          ),
+        ),
+      ),
       title: AppConstants.app_name,
       theme: appTheme,
       initialRoute: RoutePaths.Home,

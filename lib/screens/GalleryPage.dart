@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:longer_stories/locator.dart';
 import 'package:longer_stories/models/GalleryItem.dart';
+import 'package:longer_stories/services/DialogService.dart';
 import 'package:longer_stories/services/StorageService.dart';
 import 'package:longer_stories/utils/UiHelpers.dart';
 import 'package:longer_stories/widgets/PlayVideo.dart';
@@ -26,6 +27,7 @@ class _GalleryPageState extends State<GalleryPage> {
   PageController _controller;
 
   final StorageService _storageService = locator<StorageService>();
+  final DialogService _dialogService = locator<DialogService>();
 
   int _currentPage = 0;
 
@@ -109,8 +111,10 @@ class _GalleryPageState extends State<GalleryPage> {
                     onPressed: () async {
                       var saved = await _storageService
                           .saveFile(widget.galleryItems[_currentPage].resource);
-                      final s = SnackBar(content: Text('Saved at $saved'));
-                      Scaffold.of(context).showSnackBar(s);
+                      _dialogService.showDialog(
+                        title: 'Status Message Saved!',
+                        description: saved,
+                      );
                     },
                   ),
                   FlatButton.icon(
