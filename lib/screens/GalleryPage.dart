@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:longer_stories/locator.dart';
 import 'package:longer_stories/models/GalleryItem.dart';
 import 'package:longer_stories/services/StorageService.dart';
+import 'package:longer_stories/utils/UiHelpers.dart';
 import 'package:longer_stories/widgets/PlayVideo.dart';
 import 'package:share_extend/share_extend.dart';
 
@@ -47,6 +48,12 @@ class _GalleryPageState extends State<GalleryPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.removeListener(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -54,7 +61,10 @@ class _GalleryPageState extends State<GalleryPage> {
         title: Text('Save and Share'),
         backgroundColor: Colors.transparent,
         actions: <Widget>[
-          Text('${_currentPage + 1} / ${widget.galleryItems.length}')
+          Center(
+            child: Text('${_currentPage + 1} / ${widget.galleryItems.length}'),
+          ),
+          UIHelper.horizontalSpaceSmall
         ],
       ),
       body: IconTheme(
