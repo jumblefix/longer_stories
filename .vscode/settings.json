@@ -17,6 +17,7 @@
     "esys",
     "ffmpeg",
     "flushbar",
+    "passthrough",
     "vsync",
     "wifi"
   ]
