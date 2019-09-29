@@ -13,4 +13,5 @@ final appTheme = ThemeData(
       color: Colors.black,
     ),
   ),
+  dialogBackgroundColor: Colors.white.withOpacity(0.3),
 );

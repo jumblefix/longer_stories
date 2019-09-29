@@ -35,7 +35,7 @@ class Thumbnail extends StatelessWidget {
                   icon: Icon(
                     Icons.play_circle_filled,
                   ),
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.white,
                   onPressed: onPressed,
                 ),
               ),
