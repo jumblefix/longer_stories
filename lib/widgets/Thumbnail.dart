@@ -19,8 +19,11 @@ class Thumbnail extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Image.file(
-            File(galleryItem.resource),
+          FadeInImage(
+            image: FileImage(File(galleryItem.resource)),
+            placeholder: AssetImage(
+              'assets/images/coolstatus-wbg-op50.png',
+            ),
             fit: BoxFit.cover,
           ),
           Align(

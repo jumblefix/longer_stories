@@ -70,7 +70,6 @@ class _PlayVideoState extends State<PlayVideo> {
 
   @override
   void deactivate() {
-    _controller.setVolume(0.0);
     super.deactivate();
   }
 
