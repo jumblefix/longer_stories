@@ -20,6 +20,8 @@ class Thumbnail extends StatelessWidget {
         fit: StackFit.expand,
         children: <Widget>[
           FadeInImage(
+            fadeInDuration: Duration(milliseconds: 400),
+            fadeOutDuration: Duration(milliseconds: 400),
             image: FileImage(File(galleryItem.resource)),
             placeholder: AssetImage(
               'assets/images/coolstatus-wbg-op50.png',
