@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:longer_stories/locator.dart';
 import 'package:longer_stories/models/GalleryItem.dart';
+import 'package:longer_stories/services/DialogService.dart';
 import 'package:longer_stories/services/StorageService.dart';
 import 'package:longer_stories/utils/UiHelpers.dart';
+import 'package:longer_stories/widgets/ImageWithZoom.dart';
 import 'package:longer_stories/widgets/PlayVideo.dart';
 import 'package:share_extend/share_extend.dart';
 
@@ -26,6 +28,7 @@ class _GalleryPageState extends State<GalleryPage> {
   PageController _controller;
 
   final StorageService _storageService = locator<StorageService>();
+  final DialogService _dialogService = locator<DialogService>();
 
   int _currentPage = 0;
 
@@ -62,8 +65,10 @@ class _GalleryPageState extends State<GalleryPage> {
                         key: Key(item.resource),
                         filePath: item.resource,
                         currentPage: _currentPage)
-                    : Image.file(
-                        File(item.resource),
+                    : ImageWithZoom(
+                        image: Image.file(
+                          File(item.resource),
+                        ),
                       );
               },
               onPageChanged: (index) {
@@ -78,6 +83,7 @@ class _GalleryPageState extends State<GalleryPage> {
             child: AppBar(
               title: Text('Save and Share'),
               backgroundColor: Colors.transparent,
+              titleSpacing: 0,
               actions: <Widget>[
                 Center(
                   child: Text(
@@ -96,7 +102,6 @@ class _GalleryPageState extends State<GalleryPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   FlatButton.icon(
-                    splashColor: Colors.pinkAccent,
                     color: Theme.of(context).accentColor.withOpacity(0.5),
                     icon: Icon(
                       Icons.save,
@@ -109,12 +114,13 @@ class _GalleryPageState extends State<GalleryPage> {
                     onPressed: () async {
                       var saved = await _storageService
                           .saveFile(widget.galleryItems[_currentPage].resource);
-                      final s = SnackBar(content: Text('Saved at $saved'));
-                      Scaffold.of(context).showSnackBar(s);
+                      _dialogService.showDialog(
+                        title: 'Status Message Saved!',
+                        description: saved,
+                      );
                     },
                   ),
                   FlatButton.icon(
-                    splashColor: Colors.pinkAccent,
                     color: Theme.of(context).accentColor.withOpacity(0.5),
                     icon: Icon(
                       Icons.share,

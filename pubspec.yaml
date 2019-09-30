@@ -18,6 +18,7 @@ dependencies:
   chewie: ^0.9.8
   screen: ^0.0.5
   share_extend: ^1.0.9
+  rflutter_alert: ^1.0.3
 
 dev_dependencies:
   flutter_test:

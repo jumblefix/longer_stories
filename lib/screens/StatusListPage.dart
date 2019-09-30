@@ -99,9 +99,9 @@ class _StatusListPageState extends State<StatusListPage> {
                       },
                     );
                   }
-                  return Text(
-                    item,
-                    style: TextStyle(color: Colors.black),
+
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
                 },
               );
@@ -120,14 +120,17 @@ class _StatusListPageState extends State<StatusListPage> {
   Future<List<String>> _listWhatsAppStatuses() async {
     final Directory w =
         Directory('/storage/emulated/0/WhatsApp/Media/.Statuses');
+    if (await w.exists()) {
+      mediaList = w
+          .listSync()
+          .map((item) => item.path)
+          .where((item) => item.endsWith(".jpg") || item.endsWith('.mp4'))
+          .toList(growable: false);
 
-    mediaList = w
-        .listSync()
-        .map((item) => item.path)
-        .where((item) => item.endsWith(".jpg") || item.endsWith('.mp4'))
-        .toList(growable: false);
+      return mediaList.length > 0 ? mediaList : [];
+    }
 
-    return mediaList.length > 0 ? mediaList : [];
+    return [];
   }
 
   _getImage(videoPathUrl) async {

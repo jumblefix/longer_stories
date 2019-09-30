@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:longer_stories/constants/AppColors.dart';
 
 final appTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  accentColor: Colors.pinkAccent,
+  primarySwatch: AppColors.appMaterialGrey,
+  accentColor: AppColors.appMaterialBlue,
   fontFamily: 'Open Sans',
   appBarTheme: AppBarTheme(
     elevation: 0,
   ),
-  textTheme: TextTheme(
-    display4: TextStyle(
-      fontSize: 24,
-      color: Colors.black,
-    ),
-  ),
-  dialogBackgroundColor: Colors.white.withOpacity(0.3),
+  dialogBackgroundColor: Colors.white.withOpacity(0.6),
 );

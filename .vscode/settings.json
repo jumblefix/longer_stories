@@ -9,15 +9,18 @@
     "Fmpeg",
     "Fontconfig",
     "Lato",
+    "RGBO",
     "Scrollable",
     "Stateful",
     "Uint",
     "chewie",
+    "coolstatus",
     "cupertino",
     "esys",
     "ffmpeg",
     "flushbar",
     "passthrough",
+    "rflutter",
     "vsync",
     "wifi"
   ]
