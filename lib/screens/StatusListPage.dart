@@ -36,7 +36,10 @@ class _StatusListPageState extends State<StatusListPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppConstants.app_name),
+            Text(
+              AppConstants.app_name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             Text(
               'Available Status Messages on your phone',
               style: TextStyle(fontSize: 12),
