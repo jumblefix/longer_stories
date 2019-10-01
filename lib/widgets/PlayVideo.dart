@@ -30,6 +30,10 @@ class _PlayVideoState extends State<PlayVideo> {
       ..initialize().then((_) {
         setState(() {});
       });
+
+    _controller.addListener(() {
+      _controller.value.isPlaying? Screen.keepOn(true): Screen.keepOn(false);
+    });
   }
 
   @override
@@ -39,10 +43,8 @@ class _PlayVideoState extends State<PlayVideo> {
         onTap: () {
           setState(() {
             if (_controller.value.isPlaying) {
-              Screen.keepOn(true);
               _controller.pause();
             } else {
-              Screen.keepOn(false);
               _controller.play();
             }
           });
