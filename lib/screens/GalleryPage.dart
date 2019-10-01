@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:longer_stories/locator.dart';
 import 'package:longer_stories/models/GalleryItem.dart';
 import 'package:longer_stories/services/DialogService.dart';
+import 'package:longer_stories/services/ShareService.dart';
 import 'package:longer_stories/services/StorageService.dart';
 import 'package:longer_stories/utils/UiHelpers.dart';
 import 'package:longer_stories/widgets/ImageWithZoom.dart';
 import 'package:longer_stories/widgets/PlayVideo.dart';
-import 'package:share_extend/share_extend.dart';
 
 class GalleryPage extends StatefulWidget {
   final int initialPage;
@@ -29,6 +29,7 @@ class _GalleryPageState extends State<GalleryPage> {
 
   final StorageService _storageService = locator<StorageService>();
   final DialogService _dialogService = locator<DialogService>();
+  final ShareService _shareService = locator<ShareService>();
 
   int _currentPage = 0;
 
@@ -131,13 +132,8 @@ class _GalleryPageState extends State<GalleryPage> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      var g = widget.galleryItems[_currentPage];
-                      var item = g.resource;
-                      var f = File(item);
-                      ShareExtend.share(
-                        f.path,
-                        g.isVideo ? 'video' : 'image',
-                      );
+                      GalleryItem g = widget.galleryItems[_currentPage];
+                      _shareService.share(g.resource, g.isVideo);
                     },
                   ),
                 ],
